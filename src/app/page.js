@@ -7,11 +7,20 @@ const [file, setFile] = useState(null);
 
   return (
     <div>
-      <form onSubmit={(e) => {
+      <form onSubmit={async (e) => {
         e.preventDefault();
         if(!file) return;
-        console.log(file);
-        console.log('uploading file');
+
+        const form = new FormData();
+        form.set('file', file);
+
+        //sending file to server 
+        const res = await fetch('/api/upload',{
+          method: 'POST',
+          body: form
+        })
+        const data = await res.json();
+        console.log(data);
       }}>
         <label>
           Upload File:
